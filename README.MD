@@ -22,6 +22,7 @@ the bot logs all the event in the server :
 
 ### staff
 - clear
+- ping
 
 ## :heavy_check_mark: Require
 - python >= 3.6.9

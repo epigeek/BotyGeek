@@ -51,6 +51,21 @@ class Staff(commands.Cog):
     return True
 
 
+  @commands.command(name="ping")
+  async def ping(self, ctx : commands.Context):
+    await ctx.send("pong")
 
+  @ping.error
+  async def ping_error(self, ctx : commands.Context, error : commands.CommandError):
+    if type(error) == MissingRequiredArgument:
+      await ClientLogs.helpMessage(
+        ctx,
+        "ping",
+        "debug command to view bot ping, send pong",
+        "ping"
+      )
+      return
+    self.log(LogType.LogType.ERROR, "PING/ERROR", error)
+      
 def setup(bot):
   bot.add_cog(Staff(bot))
