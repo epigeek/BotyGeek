@@ -1,0 +1,2 @@
+token : ~ # the discord bot token
+logs : run/logs
