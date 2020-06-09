@@ -1,4 +1,5 @@
 from yaml import safe_load
+import os
 
 
 
@@ -23,7 +24,13 @@ class Config:
       raise TypeError("config: checkConfig: `config` expected `dict` type, get : " + type(config))
     Config._safeTypeCheck(config, "token", str)
     Config._safeTypeCheck(config, "logs", str)
-    
+    logs = config["logs"]
+    if not os.path.exists(logs):
+      os.mkdir(logs)
+    elif not os.path.isdir(logs):
+      raise FileExistsError(f'logs is not a directory : "{logs}"')
+
+
   @staticmethod
   def _safeTypeCheck(config : dict, key : str, thetype : any):
     if not key in config.keys():
