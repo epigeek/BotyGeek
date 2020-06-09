@@ -1,2 +1,2 @@
-token : ~ # the discord bot token
-logs : run/logs
+token : ~       # the discord bot token
+logs : run/logs # the folder for the botlogs
