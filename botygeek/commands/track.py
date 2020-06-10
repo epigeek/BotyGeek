@@ -19,7 +19,7 @@ class Track(commands.Cog):
   async def on_command_error(self, ctx : commands.Context, error : CommandError):
     return
 
-  # COMMECTION
+  # CONNECTION
   @commands.Cog.listener()
   async def on_connect(self):
     self.log(LogType.VALIDATE, "CONNECT", f"{self.bot.user} {self.bot.user.id}")
@@ -117,6 +117,7 @@ class Track(commands.Cog):
   @commands.Cog.listener()
   async def on_member_join(self, member : discord.Member):
     self.log(LogType.QUESTION, f"USER/JOIN" , f"{member.name}({member.id})")
+
   
   async def on_member_remove(self, member : discord.Member):
     self.log(LogType.QUESTION, f"USER/REMOVE" , f"{member.name}({member.id})")

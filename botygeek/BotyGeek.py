@@ -9,7 +9,8 @@ class BotyGeek(Bot):
 
   initial_extensions = [
     'botygeek.commands.track',
-    'botygeek.commands.staff'
+    'botygeek.commands.staff',
+    'botygeek.commands.roles'
   ]
 
   def __init__(self, command_prefix : str, configPath : str):

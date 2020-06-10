@@ -1,2 +1,3 @@
 token : ~       # the discord bot token
 logs : run/logs # the folder for the botlogs
+roleOnJoin : [] # id of roles <3

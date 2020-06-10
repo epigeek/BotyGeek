@@ -24,6 +24,9 @@ the bot logs all the event in the server :
 - clear
 - ping
 
+### roles
+- add roles when player join the server
+
 ## :heavy_check_mark: Require
 - python >= 3.6.9
 - view [`Require.txt`](Require.txt)
@@ -41,10 +44,12 @@ the config file is in `run/config.yaml`.
 ```yaml
 token : abcdefghijklmnopqrstovwxyzABCDEFGHIJKLMNOPQRSTOVWXYZ0123456 
 logs : run/logs
+roleOnJoin : []
 ```
 inside it you can find 2 propery:
 - `token` : the token of the discord bot
 - `logs` : the path to the logs folder
+- `roleOnJoin` : list of role id, will be added when a user join
 
 ### Launch 
 to run the bot
