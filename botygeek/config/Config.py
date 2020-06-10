@@ -24,6 +24,10 @@ class Config:
       raise TypeError("config: checkConfig: `config` expected `dict` type, get : " + type(config))
     Config._safeTypeCheck(config, "token", str)
     Config._safeTypeCheck(config, "logs", str)
+    Config._safeTypeCheck(config, "roleOnJoin", list)
+    for i in config["roleOnJoin"]:
+      if not isinstance(i, int):
+        raise TypeError("config: checkConfig: a `roleOnJoin` expected `int` type, get : " + type(i))
     logs = config["logs"]
     if not os.path.exists(logs):
       os.mkdir(logs)
@@ -38,7 +42,8 @@ class Config:
     value = config[key]
     if not isinstance(value, thetype):
       raise TypeError(f"config: checkConfig: `{key}` expected `{thetype.__name__}` type, get : {value.__class__.__name__}")
-      
+
   def _import(self, config : dict):
     self.token = config["token"]
     self.logs = config["logs"]
+    self.roleOnJoin = config["roleOnJoin"]
