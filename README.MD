@@ -26,6 +26,7 @@ the bot logs all the event in the server :
 
 ### roles
 - add roles when player join the server
+- add and remove Gaming roles
 
 ## :heavy_check_mark: Require
 - python >= 3.6.9
@@ -50,6 +51,7 @@ inside it you can find 2 propery:
 - `token` : the token of the discord bot
 - `logs` : the path to the logs folder
 - `roleOnJoin` : list of role id, will be added when a user join
+- `roleSelector` : list of gaming role id, will be added when a player ask the bot fot it
 
 ### Launch 
 to run the bot
