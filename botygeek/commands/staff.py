@@ -13,7 +13,7 @@ class Staff(commands.Cog):
 
   def __init__(self, bot : BotyGeek):
     self.bot = bot
-    self.log = bot.logs.log 
+    self.log = bot.logs.log
 
   @commands.command(name="clear")
   async def clear(self, ctx : commands.Context, nb : int):

@@ -24,15 +24,20 @@ class Config:
       raise TypeError("config: checkConfig: `config` expected `dict` type, get : " + type(config))
     Config._safeTypeCheck(config, "token", str)
     Config._safeTypeCheck(config, "logs", str)
-    Config._safeTypeCheck(config, "roleOnJoin", list)
-    for i in config["roleOnJoin"]:
-      if not isinstance(i, int):
-        raise TypeError("config: checkConfig: a `roleOnJoin` expected `int` type, get : " + type(i))
     logs = config["logs"]
     if not os.path.exists(logs):
       os.mkdir(logs)
     elif not os.path.isdir(logs):
       raise FileExistsError(f'logs is not a directory : "{logs}"')
+    
+    Config._safeTypeCheck(config, "roleOnJoin", list)
+    for i in config["roleOnJoin"]:
+      if not isinstance(i, int):
+        raise TypeError("config: checkConfig: a `roleOnJoin` expected `int` type, get : " + type(i))
+    Config._safeTypeCheck(config, "roleSelector", list)
+    for i in config["roleSelector"]:
+      if not isinstance(i, int):
+        raise TypeError("config: checkConfig: a `roleSelector` expected `int` type, get : " + type(i))
 
 
   @staticmethod
@@ -47,3 +52,4 @@ class Config:
     self.token = config["token"]
     self.logs = config["logs"]
     self.roleOnJoin = config["roleOnJoin"]
+    self.roleSelector = config["roleSelector"]
