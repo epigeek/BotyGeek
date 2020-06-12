@@ -25,8 +25,8 @@ the bot logs all the event in the server :
 - ping
 
 ### roles
-- add roles when player join the server
-- add and remove Gaming roles
+- add roles when player join the server (>getrole)
+- add and remove Gaming roles (>removerole)
 
 ## :heavy_check_mark: Require
 - python >= 3.6.9
@@ -46,6 +46,7 @@ the config file is in `run/config.yaml`.
 token : abcdefghijklmnopqrstovwxyzABCDEFGHIJKLMNOPQRSTOVWXYZ0123456 
 logs : run/logs
 roleOnJoin : []
+roleSelector : []
 ```
 inside it you can find 2 propery:
 - `token` : the token of the discord bot
