@@ -45,12 +45,14 @@ the config file is in `run/config.yaml`.
 ```yaml
 token : abcdefghijklmnopqrstovwxyzABCDEFGHIJKLMNOPQRSTOVWXYZ0123456 
 logs : run/logs
+guildID: ~
 roleOnJoin : []
 roleSelector : []
 ```
 inside it you can find 2 propery:
 - `token` : the token of the discord bot
 - `logs` : the path to the logs folder
+- `guildID` : the guild id where the bot are
 - `roleOnJoin` : list of role id, will be added when a user join
 - `roleSelector` : list of gaming role id, will be added when a player ask the bot fot it
 

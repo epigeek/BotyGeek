@@ -22,17 +22,27 @@ class Roles(commands.Cog):
 
   @commands.command(name="getrole")
   async def getrole(self, ctx : commands.Context, rolename : str):
-    for id in self.config.roleSelector:
-      addrole = ctx.guild.get_role(id)
-      if str(addrole) == rolename:
-        await ctx.author.add_roles(addrole)
+    if isinstance(ctx.channel, discord.DMChannel):
+      await ctx.send("test")
+      for id in self.config.roleSelector:
+        theguild = self.bot.get_guild(self.config.guildID)
+        addrole = theguild.get_role(id)
+        if str(addrole) == rolename:
+          theauthor = ctx.message.author
+          authoringuild = theguild.get_member_named(str(theauthor))
+          await authoringuild.add_roles(addrole)
   
   @commands.command(name="removerole")
   async def removerole(self, ctx : commands.Context, rolename : str):
-    for id in self.config.roleSelector:
-      removerole = ctx.guild.get_role(id)
-      if str(removerole) == rolename:
-        await ctx.author.remove_roles(removerole)
+    if isinstance(ctx.channel, discord.DMChannel):
+      await ctx.send("test")
+      for id in self.config.roleSelector:
+        theguild = self.bot.get_guild(self.config.guildID)
+        addrole = theguild.get_role(id)
+        if str(addrole) == rolename:
+          theauthor = ctx.message.author
+          authoringuild = theguild.get_member_named(str(theauthor))
+          await authoringuild.remove_roles(addrole)
 
   @getrole.error
   async def getrole_error(self, ctx : commands.Context, error : commands.CommandError):

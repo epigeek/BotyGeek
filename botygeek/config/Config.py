@@ -7,6 +7,7 @@ class Config:
 
   token : str
   logs : str
+  guildID : int
 
   def __init__(self, path : str):
     self._path = path
@@ -24,6 +25,7 @@ class Config:
       raise TypeError("config: checkConfig: `config` expected `dict` type, get : " + type(config))
     Config._safeTypeCheck(config, "token", str)
     Config._safeTypeCheck(config, "logs", str)
+    Config._safeTypeCheck(config, "guildID", int)
     logs = config["logs"]
     if not os.path.exists(logs):
       os.mkdir(logs)
@@ -51,5 +53,6 @@ class Config:
   def _import(self, config : dict):
     self.token = config["token"]
     self.logs = config["logs"]
+    self.guildID = config["guildID"]
     self.roleOnJoin = config["roleOnJoin"]
     self.roleSelector = config["roleSelector"]
