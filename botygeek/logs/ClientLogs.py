@@ -82,3 +82,12 @@ class ClientLogs():
     if arguments:
       embed.add_field(name="Arguments", value=str.join("\n - ", arguments), inline=False)
     return await ctx.send(embed=embed)
+  
+  @staticmethod
+  async def actionDone(ctx : discord.abc.Messageable, name : str, description : str, arguments = None) -> discord.Message:
+    embed : discord.Embed = discord.Embed(color=LogColor[LogType.VALIDATE])
+    embed.set_author(icon_url=LogIcon[LogType.VALIDATE], name=str.capitalize(name))
+    embed.description = description
+    if arguments:
+      embed.add_field(name="Arguments", value=str.join("\n - ", arguments), inline=False)
+    return await ctx.send(embed=embed)
