@@ -61,7 +61,7 @@ class Roles(commands.Cog):
         ctx,
         "Get Role command",
         "Command to add a gaming role and acces to respective channel",
-        "getrole <role name>"
+        "getrole <role name> (ex: Minecraft, LOL)"
       )
       return
     self.log(LogType.LogType.ERROR, "GETROLE/ERROR", error)
@@ -73,7 +73,7 @@ class Roles(commands.Cog):
         ctx,
         "Remove Role command",
         "Command to remove a gaming role and acces to respective channel",
-        "removerole <role name>"
+        "removerole <role name> (ex: Minecraft, LOL)"
       )
       return
     self.log(LogType.LogType.ERROR, "REMOVEROLE/ERROR", error)
