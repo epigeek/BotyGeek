@@ -1,12 +1,15 @@
 from yaml import safe_load
 import os
-
+from typing import List
 
 
 class Config:
 
   token : str
   logs : str
+  serverID : int
+  roleOnJoin : List[int]
+  roleSelector : List[int]
 
   def __init__(self, path : str):
     self._path = path
@@ -24,12 +27,13 @@ class Config:
       raise TypeError("config: checkConfig: `config` expected `dict` type, get : " + type(config))
     Config._safeTypeCheck(config, "token", str)
     Config._safeTypeCheck(config, "logs", str)
+    Config._safeTypeCheck(config, "serverID", int)
     logs = config["logs"]
     if not os.path.exists(logs):
       os.mkdir(logs)
     elif not os.path.isdir(logs):
       raise FileExistsError(f'logs is not a directory : "{logs}"')
-    
+
     Config._safeTypeCheck(config, "roleOnJoin", list)
     for i in config["roleOnJoin"]:
       if not isinstance(i, int):
@@ -51,5 +55,6 @@ class Config:
   def _import(self, config : dict):
     self.token = config["token"]
     self.logs = config["logs"]
+    self.serverID = config["serverID"]
     self.roleOnJoin = config["roleOnJoin"]
     self.roleSelector = config["roleSelector"]

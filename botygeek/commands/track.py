@@ -91,7 +91,7 @@ class Track(commands.Cog):
     if messageId:
       content += f" ({message.channel.id}/{message.id})"
     return content
- 
+
   ###############
   #   REATION   #
   ###############
@@ -118,7 +118,7 @@ class Track(commands.Cog):
   async def on_member_join(self, member : discord.Member):
     self.log(LogType.QUESTION, f"USER/JOIN" , f"{member.name}({member.id})")
 
-  
+
   async def on_member_remove(self, member : discord.Member):
     self.log(LogType.QUESTION, f"USER/REMOVE" , f"{member.name}({member.id})")
 

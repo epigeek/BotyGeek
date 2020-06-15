@@ -18,7 +18,7 @@ class BotyGeek(Bot):
     super().__init__(command_prefix)
     self.logs = ServerLogs.ServerLogs("run/logs")
     for extension in self.initial_extensions:
-      self.load_extension(extension)  
+      self.load_extension(extension)
 
   def run(self, *args : list, **kwargs):
     lst = list(args)

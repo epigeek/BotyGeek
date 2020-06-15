@@ -1,4 +1,5 @@
-token : ~       # the discord bot token
-logs : run/logs # the folder for the botlogs
-roleOnJoin : [] # id of roles when player join the server<3
-roleSelector : [] # id of roles when player ask to get them
+token : ~           # the discord bot token
+logs : run/logs     # the folder for the botlogs
+guildID: ~          #the guild ID
+roleOnJoin : []     # id of roles when player join the server<3
+roleSelector : []   # id of roles when player ask to get them

@@ -25,15 +25,15 @@ the bot logs all the event in the server :
 - ping
 
 ### roles
-- add roles when player join the server (>getrole)
-- add and remove Gaming roles (>removerole)
+- add roles when player join the server (`>addrole`)
+- add and remove Gaming roles (`>removerole`)
 
 ## :heavy_check_mark: Require
 - python >= 3.6.9
 - view [`Require.txt`](Require.txt)
 
 ## :blue_book: Usage
-### Install 
+### Install
 ```sh
 python3 -m venv .venv
 source .venv/bin/activate
@@ -43,18 +43,20 @@ python3 -m pip install -r Require.txt
 ### Config
 the config file is in `run/config.yaml`.
 ```yaml
-token : abcdefghijklmnopqrstovwxyzABCDEFGHIJKLMNOPQRSTOVWXYZ0123456 
+token : abcdefghijklmnopqrstovwxyzABCDEFGHIJKLMNOPQRSTOVWXYZ0123456
 logs : run/logs
+serverID: ~
 roleOnJoin : []
 roleSelector : []
 ```
 inside it you can find 2 propery:
 - `token` : the token of the discord bot
 - `logs` : the path to the logs folder
+- `serverID` : the guild id of the main server
 - `roleOnJoin` : list of role id, will be added when a user join
 - `roleSelector` : list of gaming role id, will be added when a player ask the bot fot it
 
-### Launch 
+### Launch
 to run the bot
 ```sh
 python3 main.py
