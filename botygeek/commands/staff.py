@@ -26,7 +26,7 @@ class Staff(commands.Cog):
       await ClientLogs.deletable(self.bot, ctx, LogType.LogType.ERROR, f"Clear of {nb} messages cancel", ctx.message.author)
 
     await ClientLogs.validation(self.bot, ctx, f"Please validate the clear of {nb} messages.", ctx.message.author, clear, cancel, False, 20)
-    
+
   @clear.error
   async def clear_error(self, ctx : commands.Context, error : commands.CommandError):
     if type(error) == MissingRequiredArgument:
@@ -41,7 +41,7 @@ class Staff(commands.Cog):
       )
       return
     self.log(LogType.LogType.ERROR, "CLEAR/ERROR", error)
-      
+
   @staticmethod
   async def _clear(channel : discord.TextChannel, nb : int) -> bool:
     messages = []
@@ -66,6 +66,6 @@ class Staff(commands.Cog):
       )
       return
     self.log(LogType.LogType.ERROR, "PING/ERROR", error)
-      
+
 def setup(bot):
   bot.add_cog(Staff(bot))

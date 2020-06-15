@@ -40,7 +40,7 @@ class ServerLogs():
       f"{content} "
     )
     self._write(f"[{datetime.datetime.now().isoformat()}] ({logType.name}) {{{action}}} {content}")
-    
+
   @staticmethod
   def _limitsize(size : int, content : str, fill=" "):
     return content + fill * (size - len(content))

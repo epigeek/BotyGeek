@@ -7,12 +7,14 @@ from botygeek.logs.LogType import LogType, LogColor, LogIcon, LogTitle
 class ClientLogs():
 
   @staticmethod
-  async def send(ctx, type : LogType, content : str) -> discord.Message:
+  async def send(ctx, type : LogType, title : str, content : str = None) -> discord.Message:
+    if not content:
+      (content, title) = (title, content)
     embed : discord.Embed = discord.Embed(color=LogColor[type])
-    embed.set_author(icon_url=LogIcon[type], name=LogTitle[type])
+    embed.set_author(icon_url=LogIcon[type], name=title if title else LogTitle[type])
     embed.description = content
     return await ctx.send(embed=embed)
-  
+
   @staticmethod
   async def question(
     client : discord.Client,
@@ -79,15 +81,6 @@ class ClientLogs():
     embed.set_author(icon_url=LogIcon[LogType.INFO], name=str.capitalize(name))
     embed.description = description
     embed.add_field(name="Usage", value=f"`>{usage}`", inline=False)
-    if arguments:
-      embed.add_field(name="Arguments", value=str.join("\n - ", arguments), inline=False)
-    return await ctx.send(embed=embed)
-  
-  @staticmethod
-  async def actionDone(ctx : discord.abc.Messageable, name : str, description : str, arguments = None) -> discord.Message:
-    embed : discord.Embed = discord.Embed(color=LogColor[LogType.VALIDATE])
-    embed.set_author(icon_url=LogIcon[LogType.VALIDATE], name=str.capitalize(name))
-    embed.description = description
     if arguments:
       embed.add_field(name="Arguments", value=str.join("\n - ", arguments), inline=False)
     return await ctx.send(embed=embed)
