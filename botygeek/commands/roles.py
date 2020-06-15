@@ -102,7 +102,7 @@ class Roles(commands.Cog):
         "you are not in the server"
       )
       return
-    await member.add_roles(role)
+    await member.remove_roles(role)
     await ClientLogs.send(
       ctx,
       LogType.LogType.VALIDATE,
