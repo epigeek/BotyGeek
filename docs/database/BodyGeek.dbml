@@ -1,0 +1,7 @@
+Project BotyGeek {
+  database_type: 'sqlite3'
+  note: '''
+  # BotyGeek Database
+  this is the database of the backend of the BotyGeek discord bot
+  '''
+}
