@@ -21,3 +21,16 @@ table permissionGroup {
   it store the given BotyGeek permission given of a discord group
   '''
 }
+
+table warn {
+  id int [pk, increment, unique, not null]
+
+  accuser_uid int [not null, note: "the user waner user id"]
+  accused_uid int [not null, note: "the warned user id"]
+  reason text [not null, note: "the given reason in message, len <= 2000"]
+  proof file [note: "a file or a image that show what the user do wong"]
+
+  note: '''
+  represent a warn
+  '''
+}
