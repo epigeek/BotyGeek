@@ -5,3 +5,19 @@ Project BotyGeek {
   this is the database of the backend of the BotyGeek discord bot
   '''
 }
+
+
+table permissionGroup {
+  id int [pk, unique, not null, note: "the discord group id"]
+
+  admin_ping bool [not null, default: false, note: "can use the test ping command"]
+  admin_clear bool [not null, default: false, note: "can use the admin clear command"]
+
+  role_addRole bool [not null, default: false, note: "can add a role from the given list"]
+  role_removeRole bool [not null, default: false, note: "can remove a role from the given list"]
+
+  note: '''
+  BotyGeek permissionGroup is an extention of the discord permissionGroup.
+  it store the given BotyGeek permission given of a discord group
+  '''
+}
