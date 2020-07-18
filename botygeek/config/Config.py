@@ -10,6 +10,7 @@ class Config:
   serverID : int
   roleOnJoin : List[int]
   roleSelector : List[int]
+  database : str
 
   def __init__(self, path : str):
     self._path = path
@@ -23,25 +24,37 @@ class Config:
 
   @staticmethod
   def checkConfig(config : any):
+    # config is a dict
     if not isinstance(config, dict):
       raise TypeError("config: checkConfig: `config` expected `dict` type, get : " + type(config))
+
+    # token
     Config._safeTypeCheck(config, "token", str)
-    Config._safeTypeCheck(config, "logs", str)
+    # severID
     Config._safeTypeCheck(config, "serverID", int)
+    # database
+    Config._safeTypeCheck(config, "database", str)
+
+    # logs
+    Config._safeTypeCheck(config, "logs", str)
     logs = config["logs"]
     if not os.path.exists(logs):
       os.mkdir(logs)
     elif not os.path.isdir(logs):
       raise FileExistsError(f'logs is not a directory : "{logs}"')
 
+    # roleOnJoin
     Config._safeTypeCheck(config, "roleOnJoin", list)
     for i in config["roleOnJoin"]:
       if not isinstance(i, int):
         raise TypeError("config: checkConfig: a `roleOnJoin` expected `int` type, get : " + type(i))
+
+    # roleSelector
     Config._safeTypeCheck(config, "roleSelector", list)
     for i in config["roleSelector"]:
       if not isinstance(i, int):
         raise TypeError("config: checkConfig: a `roleSelector` expected `int` type, get : " + type(i))
+
 
 
   @staticmethod
@@ -58,3 +71,4 @@ class Config:
     self.serverID = config["serverID"]
     self.roleOnJoin = config["roleOnJoin"]
     self.roleSelector = config["roleSelector"]
+    self.database = config["database"]
