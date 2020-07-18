@@ -2,10 +2,15 @@ import discord
 from discord.ext.commands import Bot
 from botygeek.logs import ServerLogs, LogType
 from botygeek.config.Config import Config
+from botygeek.database import Database
 
 
 
 class BotyGeek(Bot):
+
+  config : Config
+  logs : ServerLogs.ServerLogs
+  database : Database
 
   initial_extensions = [
     'botygeek.commands.track',
@@ -17,6 +22,7 @@ class BotyGeek(Bot):
     self.config = Config(configPath)
     super().__init__(command_prefix)
     self.logs = ServerLogs.ServerLogs("run/logs")
+    self.database = Database(self.config.database)
     for extension in self.initial_extensions:
       self.load_extension(extension)
 
