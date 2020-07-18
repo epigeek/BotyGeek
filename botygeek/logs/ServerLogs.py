@@ -19,9 +19,9 @@ class ServerLogs():
     self.file = None
     self.date = datetime.date.today()
     self._createLogsFile()
-    rows, columns = os.popen('stty size', 'r').read().split()
+    rows, columns = self._getWindowsDimmension()
     print("DateTime                   │ Type     │ Action                                     │ Descrition")
-    print(self._limitsize(int(columns), "───────────────────────────┼──────────┼────────────────────────────────────────────┼", "─"))
+    print(self._limitsize(columns, "───────────────────────────┼──────────┼────────────────────────────────────────────┼", "─"))
 
   def _createLogsFile(self):
     if self.file:
@@ -40,6 +40,13 @@ class ServerLogs():
       f"{content} "
     )
     self._write(f"[{datetime.datetime.now().isoformat()}] ({logType.name}) {{{action}}} {content}")
+
+  @staticmethod
+  def _getWindowsDimmension() -> (int, int):
+    info = os.popen('stty size', 'r').read().split()
+    rows = int(info[0]) if len(info) > 0 else 64
+    columns = int(info[1]) if len(info) > 1 else 128
+    return (rows, columns)
 
   @staticmethod
   def _limitsize(size : int, content : str, fill=" "):
