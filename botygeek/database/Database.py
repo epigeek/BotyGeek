@@ -21,20 +21,21 @@ class Collumn:
   convertToSQL = {
     bool : lambda value: '0' if not value else '1'
   }
+
   toPython = {
     bool : lambda value: value == '1'
   }
 
   def __init__(self, name : str, thetype : type, *, primaryKey : bool = False, autoIncremental : bool = False, notNull : bool = False, unique : bool = False, default : any = None):
-    self.name = self._TypeCheck(name, str)
-    self.thetype = self._TypeCheck(thetype, type)
-    self.primaryKey = self._TypeCheck(primaryKey, bool)
-    self.notNull = self._TypeCheck(notNull, bool)
-    self.unique = self._TypeCheck(unique, bool)
-    self.default = self._TypeCheck(default, thetype, True)
+    self.name = self.__typeCheck(name, str)
+    self.thetype = self.__typeCheck(thetype, type)
+    self.primaryKey = self.__typeCheck(primaryKey, bool)
+    self.notNull = self.__typeCheck(notNull, bool)
+    self.unique = self.__typeCheck(unique, bool)
+    self.default = self.__typeCheck(default, thetype, True)
     if not primaryKey and autoIncremental:
       raise ValueError(f"collumn {self.name} can be autoIncremental only if is primaryKey")
-    self.autoIncremental = self._TypeCheck(autoIncremental, bool)
+    self.autoIncremental = self.__typeCheck(autoIncremental, bool)
 
   def toTurple(self):
     return (
@@ -64,7 +65,7 @@ class Collumn:
     return 0 if not value else 1
 
   @staticmethod
-  def _TypeCheck(variable : any, thetype : type, canBeNone : bool = False) -> any:
+  def __typeCheck(variable : any, thetype : type, canBeNone : bool = False) -> any:
     if not (canBeNone and variable == None) and not isinstance(variable, thetype):
       raise TypeError(f"`{(variable)}` expected `{thetype.__name__}` type, get : {variable.__class__.__name__}") # TODO add variable name
     return variable
@@ -88,68 +89,75 @@ class Collumn:
         self.autoIncremental == value.autoIncremental
     return super().__eq__(value)
 
+class Table:
+  name : str
+  collumns : List[Collumn]
+
+  def __init__(self, name : str, collumns : List[Collumn]):
+    self.name = self.__typeCheck(name, str)
+    self.collumns = self.__typeCheck(collumns, list)
+    i = 0
+    for collumn in collumns:
+      if not isinstance(collumn, Collumn):
+        raise TypeError(f"`collumns` index {i} expected `Collumn` type, get : {collumn.__class__.__name__}")
+      i += 1
+
+
+  def check(self, cursor : sqlite3.Cursor):
+    cursor.execute(f"PRAGMA table_info ({self.name});") # FIXME Unsave need to be sterize
+    tableDatabase = set([collumn[1:] for collumn in cursor.fetchall()])
+    tablePrototype = set([collumn.toTurple() for collumn in self.collumns])
+    return tableDatabase == tablePrototype
+
+  def create(self, cursor :sqlite3.Cursor):
+    # FIXME Unsave need to be sterize
+    sql = f"CREATE TABLE IF NOT EXISTS `{self.name}` (" + ", ".join([collumn.toSQL() for collumn in self.collumns]) + ");"
+    cursor.execute(sql)
+
+  @staticmethod
+  def __typeCheck(variable : any, thetype : type, canBeNone : bool = False) -> any:
+    if not (canBeNone and variable == None) and not isinstance(variable, thetype):
+      raise TypeError(f"`{(variable)}` expected `{thetype.__name__}` type, get : {variable.__class__.__name__}") # TODO add variable name
+    return variable
+
 
 
 
 class Database:
 
-  PERMISSIONGROUP_TABLE : List[Collumn] = [
-    Collumn("id", int, primaryKey=True, notNull=True, autoIncremental=True), # `id` INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE NOT NULL,
-    Collumn("admin_ping", bool, notNull=True, default=False), # `admin_ping` BOOL NOT NULL DEFAULT 0,
-    Collumn("admin_clear", bool, notNull=True, default=False), # `admin_clear` BOOL NOT NULL DEFAULT 0,
-    Collumn("role_addRole", bool, notNull=True, default=False), # `role_addRole` BOOL NOT NULL DEFAULT 0,
-    Collumn("role_removeRole", bool, notNull=True, default=False) # `role_removeRole` BOOL NOT NULL DEFAULT 0
-  ]
-
-  WARN_TABLE : List[Collumn] = [
-    Collumn("id", int, primaryKey=True, notNull=True, autoIncremental=True), # `id` INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE NOT NULL,
-    Collumn("accuser_uid", int, notNull=True), # `admin_ping` BOOL NOT NULL DEFAULT 0,
-    Collumn("accused_uid", int, notNull=True), # `admin_clear` BOOL NOT NULL DEFAULT 0,
-    Collumn("reason", str, notNull=True), # `role_addRole` BOOL NOT NULL DEFAULT 0,
-    Collumn("proof", str) # `role_removeRole` BOOL NOT NULL DEFAULT 0
-  ]
-
   connection : sqlite3.Connection
+  tables : List[Table]
 
-  def __init__(self, path : str):
-    self.connection = sqlite3.connect(path)
+  def __init__(self, path : str, tables : List[Table]):
+    self.connection = sqlite3.connect(self.__typeCheck(path, str))
+    self.tables = self.__typeCheck(tables, list)
+    i = 0
+    for table in tables:
+      if not isinstance(table, Table):
+        raise TypeError(f"`tables` index {i} expected `Table` type, get : {table.__class__.__name__}")
+      self.addTable(table)
+      i += 1
 
-    a = self.__safeLoad()
-    print(a)
+
+  def addTable(self, table : Table):
+    self.__action(self.__typeCheck(table, Table).create)
+    self.__action(table.check)
 
   def __del__(self):
     self.connection.close()
 
-  def __safeLoad(self):
-    self.__CreateTable("permissionGroup", self.PERMISSIONGROUP_TABLE)
-    if not self.__ckeckTablePrototype("permissionGroup", self.PERMISSIONGROUP_TABLE):
-      return False
-    self.__CreateTable("warn", self.WARN_TABLE)
-    if not self.__ckeckTablePrototype("warn", self.WARN_TABLE):
-      return False
-    return True
-
   def __action(self, action):
-    cursor = self.__getCursor()
+    cursor = self.getCursor()
     callReturn = action(cursor)
     self.connection.commit()
     return callReturn
 
-  def __ckeckTablePrototype(self, name : str, prototype : List[Collumn]):
-    cursor = self.__getCursor()
-    cursor.execute(f"PRAGMA table_info ({name});") # FIXME Unsave need to be sterize
-    tableDatabase = set([collumn[1:] for collumn in cursor.fetchall()])
-    tablePrototype = set([collumn.toTurple() for collumn in prototype])
-    return tableDatabase == tablePrototype
-
-  def __CreateTable(self, name : str, prototype : List[Collumn]):
-    # FIXME Unsave need to be sterize
-    sql = f"CREATE TABLE IF NOT EXISTS `{name}` (" + ", ".join([collumn.toSQL() for collumn in prototype]) + ");"
-    def action(cursor : sqlite3.Cursor):
-      cursor.execute(sql)
-    cursor = self.__action(action)
-
-  def __getCursor(self):
+  def getCursor(self):
     return self.connection.cursor()
 
+  @staticmethod
+  def __typeCheck(variable : any, thetype : type, canBeNone : bool = False) -> any:
+    if not (canBeNone and variable == None) and not isinstance(variable, thetype):
+      raise TypeError(f"`{(variable)}` expected `{thetype.__name__}` type, get : {variable.__class__.__name__}") # TODO add variable name
+    return variable
 
