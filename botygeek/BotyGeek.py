@@ -10,7 +10,7 @@ class BotyGeek(Bot):
 
   config : Config
   logs : ServerLogs.ServerLogs
-  database : Database
+  database : BotyGeek
 
   initial_extensions = [
     'botygeek.commands.track',

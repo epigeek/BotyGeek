@@ -1,6 +1,10 @@
-token : ~                 # the discord bot token
-logs : run/logs           # the folder for the botlogs
-guildID: ~                #the guild ID
-roleOnJoin : []           # id of roles when player join the server<3
-roleSelector : []         # id of roles when player ask to get them
-database: run/database.db # database path
+token : MzQxMzAwNjQ0OTMxNDM2NTQ1.Xrwkkg.JW1wxy0r6piyX9LNrJzB4twg_Vo
+logs : run/logs
+serverID: 709127824698507354
+roleOnJoin : []
+roleSelector :
+  - 716667895987306559
+  - 716667896788418620
+  - 716667897396854795
+  - 716667898051035217
+database: run/database.db

@@ -1,1 +1,3 @@
-from .Database import Database, Table, Collumn
+from .Database import Database
+from .Table import Table
+from .Collumn import Collumn
